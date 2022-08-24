@@ -11,7 +11,7 @@
           content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
     <!-- ヘッダー情報のタイトルを個別に設定できるようにする-->
-    <title>{% block title %}{% endblock %}</title>
+    <title>Pro Learning</title>
     
     <!-- staticでfavicon.icoのURLを生成する -->
     <link rel="icon" type="image/x-icon"
@@ -52,14 +52,11 @@
               <!-- ヘッダーのタイトルと本文-->
               <h4 class="text-white">お気に入りを見つけよう！</h4>
               <p class="text-muted">
-                誰でも参加できる写真投稿サイトです。
-                自分で撮影した写真なら何でもオッケー！
-                でも、カテゴリに属する写真に限ります。
-                コメントも付けてください！
+                誰でも参加できるプログラミング学習サイトです。
               </p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">Contact</h4>
+              <h4 class="text-white">Management</h4>
               <ul class="list-unstyled">
                 <!-- ナビゲーションメニュー-->
                 {% if user.is_authenticated %}
@@ -70,16 +67,17 @@
                        class="text-white">ログアウト</a></li>
                 <li><a href="{% url 'password_reset' %}"
                        class="text-white">パスワードのリセット</a></li>
-                <li><a href="mailto:admin@example.com"
-                       class="text-white">Email me</a></li>
+                <li><a href="{% url 'photo:contact' %}"
+                       class="text-white">Contact</a>
+                </li>
                 {% else %}
                 <!-- ログイン状態ではない場合のメニュー-->
                 <li><a href="{% url 'accounts:signup' %}"
                        class="text-white">サインアップ</a></li>
                 <li><a href="{% url 'accounts:login' %}"
                        class="text-white">ログイン</a></li>
-                <li><a href="mailto:admin@example.com"
-                       class="text-white">Email me</a></li>
+                <li><a href="{% url 'photo:contact' %}"
+                       class="text-white">Contact</a>
                 {% endif %}
               </ul>
             </div>
@@ -92,19 +90,9 @@
           <!-- トップページへのリンク-->
           <a href="{% url 'photo:index' %}"
              class="navbar-brand d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width="20" height="20" fill="none"
-                 stroke="currentColor"
-                 stroke-linecap="round"
-                 stroke-linejoin="round"
-                 stroke-width="2"
-                 aria-hidden="true"
-                 class="me-2"
-                 viewBox="0 0 24 24">
-                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                 <circle cx="12" cy="13" r="4"/></svg>
+          
             <!-- リンクテキスト-->
-            <strong>Photo Gallery</strong>
+            <strong>Pro Learning</strong>
           </a>
           <!-- トグルボタン-->
           <button class="navbar-toggler"
@@ -131,11 +119,11 @@
     <footer class="text-muted py-5">
       <div class="container">
         <p class="float-end mb-1">
-          <a href="#">Back to top</a>
+          <a href="{% url 'photo:index' %}">Back to top</a>
         </p>
         <!-- フッターのテキストを任意のものに書き換え-->
         <p class="mb-1">
-          Photo Gallery is &copy; Bootstrap, but please post a lot!</p>
+          ©Takasaki University of Health and Welfare All rights reserved.</p>
       </div>
     </footer>
     

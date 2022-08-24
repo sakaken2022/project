@@ -18,12 +18,6 @@
             <br>
             <!-- 投稿日時 -->
             <p>{{object.posted_at}}に投稿</p>
-            <!-- 1枚目の写真 -->
-            <p><img src="{{ object.image1.url }}"></img></p>
-            <!-- 2枚目の写真が投稿されていたら表示する-->
-            {% if object.image2 %}
-              <p><img src="{{ object.image2.url }}"></img></p>
-            {% endif %}
             
             <!-- 投稿写真がログイン中のユーザーのものであれば削除ボタンを表示-->
             {% if request.user == object.user %}

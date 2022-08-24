@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # django.views.genericからTemplateView、ListViewをインポート
 from django.views.generic import TemplateView, ListView
 # django.views.genericからCreateViewをインポート
@@ -17,6 +17,12 @@ from .models import PhotoPost
 from django.views.generic import DetailView
 # django.views.genericからDeleteViewをインポート
 from django.views.generic import DeleteView
+# formsモジュールからContactFormをインポート
+from .forms import ContactForm
+# django.contribからmesseagesをインポート
+from django.contrib import messages
+# django.core.mailモジュールからEmailMessageをインポート
+from django.core.mail import EmailMessage
 
 class IndexView(ListView):
     '''トップページのビュー
@@ -27,7 +33,7 @@ class IndexView(ListView):
     # 投稿日時の降順で並べ替える
     queryset = PhotoPost.objects.order_by('-posted_at')
     # 1ページに表示するレコードの件数
-    paginate_by = 9
+    paginate_by = 6
 
 # デコレーターにより、CreatePhotoViewへのアクセスはログインユーザーに限定される
 # ログイン状態でなければsettings.pyのLOGIN_URLにリダイレクトされる
@@ -92,7 +98,7 @@ class CategoryView(ListView):
     # index.htmlをレンダリングする
     template_name ='index.html'
     # 1ページに表示するレコードの件数
-    paginate_by = 9
+    paginate_by = 6
 
     def get_queryset(self):
       '''クエリを実行する
@@ -122,7 +128,7 @@ class UserView(ListView):
     # index.htmlをレンダリングする
     template_name ='index.html'
     # 1ページに表示するレコードの件数
-    paginate_by = 9
+    paginate_by = 6
 
     def get_queryset(self):
       '''クエリを実行する
@@ -165,7 +171,7 @@ class MypageView(ListView):
     # mypage.htmlをレンダリングする
     template_name ='mypage.html'
     # 1ページに表示するレコードの件数
-    paginate_by = 9
+    paginate_by = 6
 
     def get_queryset(self):
       '''クエリを実行する
@@ -215,3 +221,77 @@ class PhotoDeleteView(DeleteView):
       '''
       # スーパークラスのdelete()を実行
       return super().delete(request, *args, **kwargs)
+  
+def contact_view(request):
+    '''Contactページのビュー    
+    contact.htmlをレンダリングして戻り値として返す
+    
+    Parameters:
+      request(HTTPRequest):
+          クライアントからのリクエスト情報を格納したHTTPRequestオブジェクト
+    
+    Returns(HTTPResponse):
+        Contactページへのアクセス時:
+            render()でテンプレートをレンダリングした結果
+        Sendボタンがクリックされた場合
+            メールの送信処理完了後、Contactページにリダイレクトする
+    '''
+    # Contactページへのアクセスがあった場合(リクエストがGETの場合)
+    # render()でテンプレートをレンダリングする
+    if request.method == 'GET':
+        # ContactFormオブジェクトを生成
+        form = ContactForm()
+        # render():
+        # 第1引数: HTTPRequestオブジェクト
+        # 第2引数: レンダリングするテンプレート
+        # 第3引数: テンプレートに引き渡すdict型のデータ
+        #         {キーは'form': ContactFormオブジェクト}
+        return render(request, "contact.html", {'form': form})
+    # 送信ボタン（Send)がクリックされた場合(リクエストがPOSTの場合)
+    else:
+        # ContactFormオブジェクトを生成(引数はPOSTされたフォームデータ)
+        form = ContactForm(request.POST)
+        # POSTされたフォームのデータがバリデーションを通過しているかを確認
+        if form.is_valid():
+            # フォームに入力されたデータをフィールド名を指定して取得
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            title = form.cleaned_data['title']
+            message = form.cleaned_data['message']
+            # メールのタイトルの書式を設定
+            subject = 'お問い合わせ: {}'.format(title)
+            # フォームの入力データの書式を設定
+            message = \
+              '送信者名: {0}\nメールアドレス: {1}\n タイトル:{2}\n メッセージ:\n{3}' \
+              .format(name, email, title, message)
+            # メールの送信元のアドレス(Gmail)
+            from_email = 'sakaken2022@gmail.com'
+            # 送信先のメールアドレス(Gmail)
+            to_list = ['sakaken2022@gmail.com']
+            # EmailMessageオブジェクトを生成
+            message = EmailMessage(subject=subject,
+                                   body=message,
+                                   from_email=from_email,
+                                   to=to_list,
+                                   )
+            # EmailMessageクラスのsend()でメールサーバーからメールを送信
+            message.send()
+            # 送信完了後に表示するメッセージ
+            messages.success(
+              request, 'お問い合わせありがとうございます。フォームは正常に送信されました。')
+            # Contactページにリダイレクトする
+            return redirect('photo:contact')
+        
+def learning_view(request):
+
+    # Contactページへのアクセスがあった場合(リクエストがGETの場合)
+    # render()でテンプレートをレンダリングする
+    if request.method == 'GET':
+        # ContactFormオブジェクトを生成
+        form = ContactForm()
+        # render():
+        # 第1引数: HTTPRequestオブジェクト
+        # 第2引数: レンダリングするテンプレート
+        # 第3引数: テンプレートに引き渡すdict型のデータ
+        #         {キーは'form': ContactFormオブジェクト}
+        return render(request, "htdocs/learning.html", {'form': form})

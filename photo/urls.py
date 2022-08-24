@@ -52,4 +52,23 @@ urlpatterns = [
          views.PhotoDeleteView.as_view(),
          name = 'photo_delete'
          ),
+    # 問い合わせページのURLパターン
+    path(
+        # 問い合わせページのURLは「contact/」
+        'contact/',
+        # viewsモジュールのcontact_view()関数を実行
+        views.contact_view,
+        # URLパターンの名前を'contact'にする
+        name='contact'
+        ),
+    #プログラミング画面
+    path(
+        # 問い合わせページのURLは「learning/」
+        'learning/',
+        # viewsモジュールのlearning_view()関数を実行
+        views.learning_view,
+        # URLパターンの名前を'contact'にする
+        name='learning'
+        ),
 ]
+
