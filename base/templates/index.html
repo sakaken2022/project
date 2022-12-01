@@ -1,0 +1,19 @@
+<!-- ベーステンプレートを適用する -->
+{% extends 'base.html' %}
+<!-- ヘッダー情報のページタイトルを設定する -->
+{% block title %}Gallery{% endblock %}
+
+      {% block contents %}
+      <!-- タイトルテンプレートの組み込み -->
+      {% include "post_title.html" %}
+      {% if user.is_authenticated %}
+      <!-- 投稿一覧テンプレートの組み込み -->
+      {% include "post_list.html" %}
+      <!-- ページネーションの組み込み -->
+      {% include "pagination.html" %}
+      <!-- ログイン中のボタン -->
+      <table>
+      <td>&nbsp &nbsp &nbsp</td><td><a href="{% url 'base:post' %}"
+         class="btn btn-secondary my-1">投稿する</a></td></table>
+      {% endif %}
+      {% endblock %}
