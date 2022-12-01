@@ -61,7 +61,5 @@ urlpatterns = [
         # URLパターンの名前を'contact'にする
         name='contact'
         ),
-    #プログラミング画面
-    
 ]
 
