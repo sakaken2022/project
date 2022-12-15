@@ -1,25 +1,30 @@
 # Create your models here.
 from django.db import models
 
-class Program(models.Model):
+class C_Program(models.Model):
     '''モデルクラス
     '''
     # カテゴリに設定する項目を入れ子のタプルとして定義
     # タプルの第1要素はモデルが使用する値、
     # 第2要素は管理サイトの選択メニューに表示する文字列
 
-    # タイトル用のフィールド
+    # タイトルのフィールド
     title = models.CharField(
         verbose_name='タイトル', # フィールドのタイトル
-        max_length=200        # 最大文字数は200
+        max_length=5        # 最大文字数は5
         )
-    # 本文用のフィールド
+    # サブタイトルのフィールド
+    subtit = models.CharField(
+        verbose_name='サブタイトル', # フィールドのタイトル
+        max_length=30        # 最大文字数は30
+        )
+    # 問題文のフィールド
     content = models.TextField(
         verbose_name='問題文'   # フィールドのタイトル
         )
-    
+    # 問題プログラムのフィールド
     code = models.TextField(
-        verbose_name='プログラム'
+        verbose_name='プログラム' # フィールドのタイトル
         )
 
     
@@ -31,28 +36,77 @@ class Program(models.Model):
         '''
         return self.title
     
-class QuestionPost(models.Model):
-    
-    CATEGORY = (('basic','基礎問題',),
-                ('advanced','応用問題'))
-    
+class Python_Program(models.Model):
+    '''モデルクラス
+    '''
+    # カテゴリに設定する項目を入れ子のタプルとして定義
+    # タプルの第1要素はモデルが使用する値、
+    # 第2要素は管理サイトの選択メニューに表示する文字列
+
+    # タイトルのフィールド
     title = models.CharField(
-        verbose_name='タイトル',
-        max_length=200
+        verbose_name='タイトル', # フィールドのタイトル
+        max_length=5        # 最大文字数は5
         )
-      
-    question = models.TextField(
-        verbose_name='問題文'
+    # サブタイトルのフィールド
+    subtit = models.CharField(
+        verbose_name='サブタイトル', # フィールドのタイトル
+        max_length=30        # 最大文字数は30
         )
-    
+    # 問題文のフィールド
+    content = models.TextField(
+        verbose_name='問題文'   # フィールドのタイトル
+        )
+    # 問題プログラムのフィールド
     code = models.TextField(
-        verbose_name='プログラム'
+        verbose_name='プログラム' # フィールドのタイトル
         )
 
+    
     def __str__(self):
+        '''Django管理サイトでデータを表示する際に識別名として
+           投稿記事のタイトル(titleフィールドの値を表示するために必要
+        
+        Returns(str):投稿記事のタイトル
+        '''
         return self.title
 
-class KnowledgePost(models.Model):
+class Java_Program(models.Model):
+    '''モデルクラス
+    '''
+    # カテゴリに設定する項目を入れ子のタプルとして定義
+    # タプルの第1要素はモデルが使用する値、
+    # 第2要素は管理サイトの選択メニューに表示する文字列
+
+    # タイトルのフィールド
+    title = models.CharField(
+        verbose_name='タイトル', # フィールドのタイトル
+        max_length=5        # 最大文字数は5
+        )
+    # サブタイトルのフィールド
+    subtit = models.CharField(
+        verbose_name='サブタイトル', # フィールドのタイトル
+        max_length=30        # 最大文字数は30
+        )
+    # 問題文のフィールド
+    content = models.TextField(
+        verbose_name='問題文'   # フィールドのタイトル
+        )
+    # 問題プログラムのフィールド
+    code = models.TextField(
+        verbose_name='プログラム' # フィールドのタイトル
+        )
+
+    
+    def __str__(self):
+        '''Django管理サイトでデータを表示する際に識別名として
+           投稿記事のタイトル(titleフィールドの値を表示するために必要
+        
+        Returns(str):投稿記事のタイトル
+        '''
+        return self.title
+
+class Q_knowledge(models.Model):
     
     CATEGORY = (('basic','基礎問題',),
                 ('advanced','応用問題'))

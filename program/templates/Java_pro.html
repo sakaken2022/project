@@ -25,21 +25,63 @@
           crossorigin="anonymous">
 
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
         }
-      }
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+        .f1 table{
+          margin: auto;
+        }
     </style>
-  </head>
+    <script>
+        var send_post = new XMLHttpRequest();
+        var send_get2 = new XMLHttpRequest();
+        var res_post, timerID, res_get2;
+        
+        function postPaiza() {
+        	var src = document.form1.fmsrc.value;
+        	var inp = document.form1.fminp.value;
+        	var para = "source_code=" + src + "&language=" + "java" + "&api_key=guest";
+        	console.log(src);
+        
+            send_post.open('POST', 'http://api.paiza.io/runners/create', true);
+            send_post.responseType = 'json';
+        	send_post.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=Shift-JIS');
+        	send_post.setRequestHeader('Access-Control-Allow-Origin', 'http://api.paiza.io/');
+            send_post.send(para);
+        }
+        
+        send_post.onload = function () {
+        	res_post = this.response;
+        	console.log(res_post["id"]);
+        	timerID = setInterval("getPaiza2()", 2000);
+        }
+        
+        function getPaiza2() {
+        	clearInterval(timerID);
+        	var url2 = "http://api.paiza.io:80/runners/get_details?id=" + res_post["id"] + "&api_key=guest";
+            send_get2.open('GET', url2, true);
+            send_get2.responseType = 'json';
+            send_get2.send();
+        }
+        
+        send_get2.onload = function () {
+        	res_get2 = this.response;
+        	console.log(res_get2["stdout"]);
+        	console.log(res_get2["build_stderr"]);
+        	document.form1.fmout.value = res_get2["stdout"];
+        	document.form1.fmerr.value = res_get2["build_stderr"];
+        }
+    </script>
+    </head>
 
   <body>
     <!-- ページのヘッダー-->
@@ -90,6 +132,7 @@
           <!-- トップページへのリンク-->
           <a href="{% url 'base:index' %}"
              class="navbar-brand d-flex align-items-center">
+
             <!-- リンクテキスト-->
             <strong>Pro Learning</strong>
           </a>
@@ -106,19 +149,41 @@
         </div>
       </div>
     </header>
-
-    <!-- メインコンテンツ-->
-    <main>
-      <!-- <main>タグの要素をすべて削除して以下に書き換え-->
-      <!-- メインコンテンツの本体部分は各ページのテンプレートで埋め込む-->
-      {% block contents %}{% endblock %}
+    <main> 
+    {% for record in orderby_records %}
+      <form class="f1" name="form1">
+        <table>
+            <tr><td><h1>{{record.title}}</h1></td></tr>
+            
+            <tr><td><hr></td></tr>
+            <td>{{record.content|linebreaksbr}}</td>
+            
+            <tr>
+             <tr><td><hr></td></tr>
+             <td>&spades;プログラム&spades;</td>
+             <td>&spades;実行結果&spades;</td>
+            </tr>
+            
+            <tr>
+             <td><textarea cols="75" rows="10" name="fmsrc" >{{record.code}}</textarea></td>
+             <td><textarea cols="75" rows="10" name="fmout"></textarea></td>
+            </tr>
+    
+            <tr><td>&spades;入力&spades;</td></tr>
+            <tr><td><input size="40" type="text" style="width:250px; height:40px;" name="fminp">　　<input type="button" value="実行" onClick="postPaiza()" class="btn btn-primary my-2"></td></tr>
+            <tr><td>&spades;エラー情報&spades;</td></tr>
+            <tr><td><textarea cols="75" rows="5" name="fmerr"></textarea></td></tr>
+        </table>
+      </form>
+      {% empty %}
+      <p>the list is empty.</p>
+      {% endfor %}
     </main>
-
-    <!-- フッター -->
+    <p>{% include "pagination2.html" %}</p>
     <footer class="text-muted py-5">
       <div class="container">
         <p class="float-end mb-1">
-          <a href="{% url 'base:index' %}">Back to home</a>
+          <a href="{% url 'program:C_list' %}">Back to list</a>
         </p>
         <!-- フッターのテキストを任意のものに書き換え-->
         <p class="mb-1">

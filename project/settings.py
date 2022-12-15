@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # baseアプリを追加する
     'base.apps.BaseConfig',
-    #learningアプリを追加する
+    # learningアプリを追加する
     'program.apps.ProgramConfig',
     # accountsアプリを追加する
     'accounts.apps.AccountsConfig',

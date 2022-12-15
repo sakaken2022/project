@@ -1,7 +1,7 @@
 <!-- ベーステンプレートを適用する -->
 {% extends 'base.html' %}
 <!-- ヘッダー情報のページタイトルを設定する -->
-{% block title %}Detail{% endblock %}
+{% block title %}Delete{% endblock %}
 
       {% block contents %}
       <!-- Bootstrapのグリッドシステム -->
@@ -13,7 +13,7 @@
           <div class="col offset-3">
             <form method="POST">
               <br>
-              <p>削除してもいいですか?</p>
+              <p>削除でお間違えないですか？</p>
               {% csrf_token %}
               <button class="btn btn-primary my-2"
                       type="submit">削除</button>

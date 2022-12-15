@@ -13,29 +13,29 @@
    <div class="col-lg-6 col-md-8 mx-auto">
 <!-- ヘッダー情報のページタイトルは
   ベーステンプレートを利用するページで設定する -->
-<!--{% block title %}Django's Blog{% endblock %}-->
+<!--{% block title %}Pro Learning{% endblock %}-->
 
     <!-- <head>～</head>を削除 -->
     <!-- <body>とコメントNavigatio以下の<nav>～</nav>を削除-->
         <!-- Navigation-->
         <p><font size="5">実技問題</font></p>
-        <a href="{% url 'program:C-list' %}"
+        <a href="{% url 'program:C_list' %}"
            class="btn btn-secondary my-2"><font size="7">C言語</font></a>&emsp;
            
-        <a href="{% url 'program:learning' %}"
+        <a href="{% url 'program:Python_list' %}"
            class="btn btn-secondary my-2"><font size="7">Python</font></a> &emsp;
            
-        <a href="{% url 'program:learning' %}"
+        <a href="{% url 'program:Java_list' %}"
            class="btn btn-secondary my-2"><font size="7">Java</font></a> 
         <hr>
         <p><font size="5">知識問題</font></p>
-        <a href="{% url 'program:learning' %}"
+        <a href="{% url 'program:C_list' %}"
            class="btn btn-primary my-2"><font size="7">C言語</font></a>&emsp;
            
-        <a href="{% url 'program:learning' %}"
+        <a href="{% url 'program:C_list' %}"
            class="btn btn-primary my-2"><font size="7">Python</font></a> &emsp;
            
-        <a href="{% url 'program:learning' %}"
+        <a href="{% url 'program:C_list' %}"
            class="btn btn-primary my-2"><font size="7">Java</font></a> 
         
     </div>

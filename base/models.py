@@ -50,7 +50,20 @@ class Post(models.Model):
     comment = models.TextField(
         verbose_name='コメント',  # フィールドのタイトル
         )
-    
+    # イメージのフィールド1
+    image1 = models.ImageField(
+        verbose_name='イメージ1',# フィールドのタイトル
+        upload_to = 'photos',  # MEDIA_ROOT以下のphotosにファイルを保存
+        blank=True,            # フィールド値の設定は必須でない
+        null=True              # データベースにnullが保存されることを許容
+        )
+    # イメージのフィールド2
+    image2 = models.ImageField(
+        verbose_name='イメージ2',# フィールドのタイトル
+        upload_to = 'photos',  # MEDIA_ROOT以下のphotosにファイルを保存
+        blank=True,            # フィールド値の設定は必須でない
+        null=True              # データベースにnullが保存されることを許容
+        )
     # 投稿日時のフィールド
     posted_at = models.DateTimeField(
         verbose_name='投稿日時', # フィールドのタイトル

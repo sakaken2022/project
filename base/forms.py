@@ -14,7 +14,7 @@ class PostForm(ModelForm):
           fields: フォームで使用するモデルのフィールドを指定
         '''
         model = Post
-        fields = ['category', 'title', 'comment']
+        fields = ['category', 'title', 'comment', 'image1', 'image2']
 
 class ContactForm(forms.Form):
     # フォームのフィールドをクラス変数として定義

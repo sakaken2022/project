@@ -76,7 +76,7 @@
         send_get2.onload = function () {
         	res_get2 = this.response;
         	console.log(res_get2["stdout"]);
-        	console.log(res_get2["build_stderr"]);
+        	console.log(res_get2["stderr"]);
         	document.form1.fmout.value = res_get2["stdout"];
         	document.form1.fmerr.value = res_get2["build_stderr"];
         }
@@ -149,36 +149,41 @@
         </div>
       </div>
     </header>
-    <main> 
+    <main>
+    {% for record in orderby_records %}
       <form class="f1" name="form1">
         <table>
-            <tr><td><h1>{{object.title}}</h1></td></tr>
-            
+            <tr><td><br><h1>{{record.title}}</h1></td></tr>
+
             <tr><td><hr></td></tr>
-            <td>{{object.content|linebreaksbr}}</td>
-            
+            <td>{{record.content|linebreaksbr}}</td>
+
             <tr>
              <tr><td><hr></td></tr>
-             <td>&#10058;プログラム&#10058;</td>
-             <td>&#10058;実行結果&#10058;</td>
+             <td>&spades;プログラム&spades;</td>
+             <td>&spades;実行結果&spades;</td>
             </tr>
-            
+
             <tr>
-             <td><textarea cols="75" rows="10" name="fmsrc" >{{object.code}}</textarea></td>
+             <td><textarea cols="75" rows="10" name="fmsrc" >{{record.code}}</textarea></td>
              <td><textarea cols="75" rows="10" name="fmout"></textarea></td>
             </tr>
-    
-            <tr><td>&#10058;入力パラメータ&#10058;</td></tr>
-            <tr><td><input size="40" type="text" name="fminp"><input type="button" value="実　行" onClick="postPaiza()"></td></tr>
-            <tr><td>&#10058;エラー情報&#10058;</td></tr>
+
+            <tr><td>&spades;入力&spades;</td></tr>
+            <tr><td><input size="40" type="text" style="width:250px; height:40px;" name="fminp">　　<input type="button" value="実行" onClick="postPaiza()" class="btn btn-primary my-2"></td></tr>
+            <tr><td>&spades;エラー情報&spades;</td></tr>
             <tr><td><textarea cols="75" rows="5" name="fmerr"></textarea></td></tr>
         </table>
       </form>
+      {% empty %}
+      <p>the list is empty.</p>
+      {% endfor %}
     </main>
+    <p>{% include "pagination2.html" %}</p>
     <footer class="text-muted py-5">
       <div class="container">
         <p class="float-end mb-1">
-          <a href="{% url 'base:index' %}">Back to home</a>
+          <a href="{% url 'program:C_list' %}">Back to list</a>
         </p>
         <!-- フッターのテキストを任意のものに書き換え-->
         <p class="mb-1">
