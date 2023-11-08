@@ -1,0 +1,370 @@
+<!-- 静的ファイルのURLを生成するstaticタグをロードする-->
+{% load static %}
+<!doctype html>
+<!-- 言語指定をenからjaに変更-->
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author"
+          content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <!-- ヘッダー情報のタイトルを個別に設定できるようにする-->
+    <title>Pro Learning</title>
+
+    <!-- staticでfavicon.icoのURLを生成する -->
+    <link rel="icon" type="image/x-icon"
+　　        href={% static 'assets/favicon.ico' %} />
+　　
+    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap core CSSを読み込むコードをBootstrapからコピー-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">    
+                
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+        }
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+        .f1 table{
+          margin: auto;
+          position: relative;
+        }
+    
+        
+#true {
+  width: 800px;  /* 横幅を画面いっぱいにする */
+  height: 100px; /* 高さを画面いっぱいにする */
+  background-color: rgba(F,F,F,1); /* 背景を半透明の黒い背景にする */
+  position: relative; /* 相対位置に指定 */
+  z-index: 10;        /* ウィンドウの全面に表示 */
+  display: none;      /* 初期は非表示 */
+  border: solid 4px;　/*枠線の表示*/
+  position: absolute; /* 装置位置に指定 */
+  left: 50%;        /* 左からから50%の位置に配置 */
+  top: 50%;         /* 上から50%の位置に配置 */
+  transform: translate(-50%, -50%); /* コンテンツの半分だけ位置を戻して上下左右中央に配置 */
+}
+
+#true.conf {
+  background: #FFF;   /* 背景を白色に指定 */
+  padding: 20px;      /* 余白を20pxに指定 */
+  position: absolute; /* 装置位置に指定 */
+  top: 50%;           /* 上から50%の位置に配置 */
+  left: 50%;          /* 左から50%の位置に配置 */
+  transform: translate(-50%,-50%); /* コンテンツの半分だけ位置を戻して上下左右中央に配置 */
+}
+
+#false {
+  width: 800px;  /* 横幅を画面いっぱいにする */
+  height: 100px; /* 高さを画面いっぱいにする */
+  background-color: rgba(F,F,F,1); /* 背景を半透明の黒い背景にする */
+  position: relative; /* 相対位置に指定 */
+  z-index: 10;        /* ウィンドウの全面に表示 */
+  display: none;      /* 初期は非表示 */
+  border: solid 4px;　/*枠線の表示*/
+  position: absolute; /* 装置位置に指定 */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+.btns {
+  text-align: right; /* 要素を右寄せにする */
+}
+.btns.ok {
+  /* okボタンの装飾を変えるなら書く */
+}
+        
+#answer{
+    display: none;  /* 非表示 */
+}
+    </style>
+    <script>
+        var res_post, timerID, res_get;
+        var send_post = new XMLHttpRequest();
+        var send_get = new XMLHttpRequest();
+
+        function postPaiza() {
+        	var src = document.form1.fmsrc.value;
+        	var inp = document.form1.fminp.value;
+        	var para = "source_code=" + src + "&language=" + "java" + "&api_key=guest";
+        	console.log(src);
+
+          send_post.open('POST', 'http://api.paiza.io/runners/create', true);
+          send_post.responseType = 'json';
+        	send_post.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=Shift-JIS');
+        	send_post.setRequestHeader('Access-Control-Allow-Origin', 'http://api.paiza.io/');
+          send_post.send(para);
+        }
+
+        send_post.onload = function () {
+        	res_post = this.response;
+        	console.log(res_post["id"]);
+        	timerID = setInterval("getPaiza()", 2000);
+        }
+
+        function getPaiza() {
+        	clearInterval(timerID);
+        	var url = "http://api.paiza.io:80/runners/get_details?id=" + res_post["id"] + "&api_key=guest";
+          send_get.open('GET', url, true);
+          send_get.responseType = 'json';
+          send_get.send();
+        }
+
+        send_get.onload = function () {
+        	res_get = this.response;
+        	console.log(res_get["stdout"]);
+        	console.log(res_get["stderr"]);
+        	document.form1.fmout.value = res_get["stdout"];
+        	document.form1.fmerr.value = res_get["build_stderr"];
+        }
+        
+         function postans(){
+             let ans = document.getElementById('ans');
+             let answer = document.getElementById('answer');
+             
+             let button1 = document.getElementById('button1');
+             let button2 = document.getElementById('button2');
+             let button3 = document.getElementById('button3');
+             let button4 = document.getElementById('button4');
+             let button5 = document.getElementById('button5');
+             
+             button1.disabled = true;
+             button2.disabled = true;
+             button3.disabled = true;
+             button4.disabled = true;
+             button5.disabled = true;
+             
+             if(ans.value == answer.value){
+                 $("#true").show();
+             }
+             else{
+                 $("#false").show();
+             }
+         }
+         
+        function addans1() {
+            let button1 = document.getElementById('button1');
+            let ans = document.getElementById('ans');
+            ans.value = button1.value;
+        }
+        function addans2() {
+            let button2 = document.getElementById('button2');
+            let ans = document.getElementById('ans');
+            ans.value = button2.value;
+        }
+        function addans3() {
+            let button3 = document.getElementById('button3');
+            let ans = document.getElementById('ans');
+            ans.value = button3.value;
+        }
+        function addans4() {
+            let button4 = document.getElementById('button4');
+            let ans = document.getElementById('ans');
+            ans.value = button4.value;
+        }
+        
+        function addans5() {
+            let button5 = document.getElementById('button5');
+            let ans = document.getElementById('ans');
+            ans.value = button5.value;
+        }
+        
+        
+function cansel(){
+  $("#true").hide();
+  $("#false").hide(); // 確認ボックスを消す
+  location.reload(); //ページリロード
+}
+function next(){
+    
+}
+
+        
+    </script>
+    </head>
+
+  <body>
+      {% for num in orderby_records.paginator.page_range %}
+    <!-- ページのヘッダー-->
+    <header>
+      <!-- ナビゲーションバーのヘッダー-->
+      <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 col-md-7 py-4">
+              <!-- ヘッダーのタイトルと本文-->
+              <h4 class="text-white">お気に入りを見つけよう！</h4>
+              <p class="text-muted">
+                誰でも参加できるプログラミング学習サイトです。
+              </p>
+            </div>
+            <div class="col-sm-4 offset-md-1 py-4">
+              <h4 class="text-white">Menu</h4>
+              <ul class="list-unstyled">
+                <!-- ナビゲーションメニュー-->
+                {% if user.is_authenticated %}
+                <!-- ログイン中のメニュー-->
+                <li><a href="{% url 'base:mypage' %}"
+                       class="text-white">マイページ</a></li>
+                <li><a href="{% url 'accounts:logout' %}"
+                       class="text-white">ログアウト</a></li>
+                <li><a href="{% url 'password_reset' %}"
+                       class="text-white">パスワードリセット</a></li>
+                <li><a href="{% url 'base:contact' %}"
+                       class="text-white">Contact</a>
+                </li>
+                {% else %}
+                <!-- ログイン状態ではない場合のメニュー-->
+                <li><a href="{% url 'accounts:signup' %}"
+                       class="text-white">サインアップ</a></li>
+                <li><a href="{% url 'accounts:login' %}"
+                       class="text-white">ログイン</a></li>
+                <li><a href="{% url 'base:contact' %}"
+                       class="text-white">Contact</a>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ナビゲーションバー-->
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <!-- トップページへのリンク-->
+          <a href="{% url 'base:index' %}"
+             class="navbar-brand d-flex align-items-center">
+
+            <!-- リンクテキスト-->
+            <strong>Pro Learning</strong>
+          </a>
+          <!-- トグルボタン-->
+          <button class="navbar-toggler"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarHeader"
+                  aria-controls="navbarHeader"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main>
+    {% for record in orderby_records %}
+      <form class="f1" name="form1">
+        <table>
+            <tr><td><br><h1>{{record.title}}</h1></td></tr>
+
+            <tr><td><hr></td></tr>
+            <td>{{record.question|linebreaksbr}}</td>
+
+            <tr>
+             <tr><td><hr></td></tr>
+             <td>&spades;選択肢&spades;</td>
+            </tr>
+    </table>
+    <table>
+            <tr>
+             <td><input id="button1" type="button" style="width:100px; height:100px;" name="fmsrc1" value="{{record.select1}}" onClick="addans1()"></td>
+             <td><input id="button2" type="button" style="width:100px; height:100px;" name="fmsrc2" value="{{record.select2}}" onClick="addans2()"></td>
+             <td><input id="button3" type="button" style="width:100px; height:100px;" name="fmsrc3" value="{{record.select3}}" onClick="addans3()"></td>
+             <td><input id="button4" type="button" style="width:100px; height:100px;" name="fmsrc4" value="{{record.select4}}" onClick="addans4()"></td>
+             <td><input id="button5" type="button" style="width:100px; height:100px;" name="fmsrc5" value="{{record.select5}}" onClick="addans5()"></td>
+            </tr>
+</table>
+<table>
+            <tr><td>&spades;解答&spades;</td></tr>
+            <tr><td><input size="40" type="text" style="width:250px; height:40px;" name="fminp" id="ans" value="">
+            
+            <input type="button" value="実行" onClick="postans()" class="btn btn-primary my-2"></td></tr>
+            
+            <tr><td><input size="40" type="text" style="width:250px; height:40px;" name="fminp" id="answer" value="{{record.answer}}">
+        </table>
+      </form>
+      
+      <br><br>
+      
+      
+    <div id="true">
+    <center><h1>正解です!</h1>
+    <div class="btns"><input type="button" value="もう一度解く" onClick="cansel();"> 
+    {% if orderby_records.has_next %}
+    <!--
+    次ページが存在する場合はリンクを設定したアイコン［>>]を表示
+    Page.next_page_number: 次のページ番号を返す
+    -->
+     
+        <a href="?page={{ orderby_records.next_page_number }}"
+           aria-label="Next">
+          <input type="button" value="次の問題" class="ok">
+        </a>
+        
+    {% endif %}
+    </div>
+</div>
+
+<div id="false">
+  
+    <center><h1>不正解です!</h1>
+    <div class="btns"><input type="button" value="もう一度解く" onClick="cansel();"> 
+    
+     {% if orderby_records.has_next %}
+     <!--
+     次ページが存在する場合はリンクを設定したアイコン［>>]を表示
+     Page.next_page_number: 次のページ番号を返す
+     -->
+      
+         <a href="?page={{ orderby_records.next_page_number }}"
+            aria-label="Next">
+           <input type="button" value="次の問題" class="ok">
+         </a>
+         
+     {% endif %}
+     
+    </div>
+ 
+</div>
+      
+      
+      {% empty %}
+      <p>the list is empty.</p>
+      {% endfor %}
+    </main>
+    <p>{% include "pagination2.html" %}</p>
+    <footer class="text-muted py-5">
+      <div class="container">
+        <p class="float-end mb-1">
+          <a href="{% url 'program:Q_list' %}">Back to list</a>
+        </p>
+        <!-- フッターのテキストを任意のものに書き換え-->
+        <p class="mb-1">
+          ©Takasaki University of Health and Welfare All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- BootstrapからJavaScriptを読み込むコードをコピーして貼り付け-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous">
+    {% endfor %}
+    </script>
+  </body>
+</html>

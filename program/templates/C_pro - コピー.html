@@ -42,43 +42,43 @@
         }
     </style>
     <script>
+        var res_post, timerID, res_get;
         var send_post = new XMLHttpRequest();
-        var send_get2 = new XMLHttpRequest();
-        var res_post, timerID, res_get2;
+        var send_get = new XMLHttpRequest();
 
         function postPaiza() {
         	var src = document.form1.fmsrc.value;
         	var inp = document.form1.fminp.value;
-        	var para = "source_code=" + src + "&language=" + "python3" + "&api_key=guest";
+        	var para = "source_code=" + src + "&language=" + "c" + "&api_key=guest";
         	console.log(src);
 
           send_post.open('POST', 'http://api.paiza.io/runners/create', true);
           send_post.responseType = 'json';
         	send_post.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=Shift-JIS');
-        	send_post.setRequestHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8000');
+        	send_post.setRequestHeader('Access-Control-Allow-Origin', 'http://api.paiza.io/');
           send_post.send(para);
         }
 
         send_post.onload = function () {
         	res_post = this.response;
         	console.log(res_post["id"]);
-        	timerID = setInterval("getPaiza2()", 2000);
+        	timerID = setInterval("getPaiza()", 2000);
         }
 
-        function getPaiza2() {
+        function getPaiza() {
         	clearInterval(timerID);
-        	var url2 = "http://api.paiza.io:80/runners/get_details?id=" + res_post["id"] + "&api_key=guest";
-            send_get2.open('GET', url2, true);
-            send_get2.responseType = 'json';
-            send_get2.send();
+        	var url = "http://api.paiza.io:80/runners/get_details?id=" + res_post["id"] + "&api_key=guest";
+          send_get.open('GET', url, true);
+          send_get.responseType = 'json';
+          send_get.send();
         }
 
-        send_get2.onload = function () {
-        	res_get2 = this.response;
-        	console.log(res_get2["stdout"]);
-        	console.log(res_get2["stderr"]);
-        	document.form1.fmout.value = res_get2["stdout"];
-        	document.form1.fmerr.value = res_get2["stderr"];
+        send_get.onload = function () {
+        	res_get = this.response;
+        	console.log(res_get["stdout"]);
+        	console.log(res_get["stderr"]);
+        	document.form1.fmout.value = res_get["stdout"];
+        	document.form1.fmerr.value = res_get["build_stderr"];
         }
     </script>
     </head>
@@ -197,3 +197,4 @@
             crossorigin="anonymous"></script>
   </body>
 </html>
+

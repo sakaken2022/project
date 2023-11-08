@@ -41,8 +41,36 @@ class Migration(migrations.Migration):
                 ('code', models.TextField(verbose_name='プログラム')),
             ],
         ),
+        
+        migrations.CreateModel(
+            name='Php_Progtam',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=5, verbose_name='タイトル')),
+                ('subtit', models.CharField(max_length=30, verbose_name='サブタイトル')),
+                ('content', models.TextField(verbose_name='問題文')),
+                ('code', models.TextField(verbose_name='プログラム')),
+            ],
+        ),
+        
+        
         migrations.CreateModel(
             name='Q_knowledge',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(max_length=200, verbose_name='タイトル')),
+                ('question', models.TextField(verbose_name='問題文')),
+                ('select1', models.CharField(max_length=200, verbose_name='選択１')),
+                ('select2', models.CharField(max_length=200, verbose_name='選択2')),
+                ('select3', models.CharField(max_length=200, verbose_name='選択3')),
+                ('select4', models.CharField(max_length=200, verbose_name='選択4')),
+               ('select5', models.CharField(max_length=200, verbose_name='選択5')),
+                ('answer', models.CharField(max_length=200, verbose_name='答え')),
+            ],
+        ),
+        
+        migrations.CreateModel(
+            name='py_knowledge',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=200, verbose_name='タイトル')),

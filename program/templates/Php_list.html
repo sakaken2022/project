@@ -10,14 +10,14 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            <div class="my-4"><font size="6"><center>Java　実技問題</center></font></div>
+            <div class="my-4"><font size="6"><center>PHP言語　実技問題</center></font></div>
             <hr class="my-4" />
             <!--レコードが格納されたorderby_recordsから楽しかったレコードを1行ずつrecordに取り出す-->
             {% for record in orderby_records %}
             <!-- Post preview-->
             <div class="post-preview">
-                <!--urlでURLパターン'Java_detail/<int:pk>/'を生成し、詳細ページへのリンクを設定-->
-                <a href="{% url 'program:Java_detail' record.pk %}">
+                <!--urlでURLパターン'C_detail/<int:pk>/'を生成し、詳細ページへのリンクを設定-->
+                <a href="{% url 'program:PHP_detail' record.pk %}">
                     <!-- 記事のタイトル -->
                     <h2 class="post-title">
                         <!-- titleフィールドを出力-->

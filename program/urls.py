@@ -37,7 +37,30 @@ urlpatterns = [
         # URLパターンの名前を'Java_detail'にする
         name='Java_detail'
         ),
-    
+    path(
+        # 詳細ページのURLは「PHP-detail/レコードのid/」
+        'Php-program/<int:pk>/',
+        # viewsモジュールのPHP_detail()関数を実行
+        views.Php_detail,
+        # URLパターンの名前を'PHP_detail'にする
+        name='Php_detail'
+        ),
+    path(
+        # 詳細ページのURLは「Java-detail/レコードのid/」
+        'Q-program/<int:pk>/',
+        # viewsモジュールのJava_detail()関数を実行
+        views.Q_detail,
+        # URLパターンの名前を'Java_detail'にする
+        name='Q_detail'
+        ),
+    path(
+        # 詳細ページのURLは「Java-detail/レコードのid/」
+        'py-program/<int:pk>/',
+        # viewsモジュールのJava_detail()関数を実行
+        views.py_detail,
+        # URLパターンの名前を'Java_detail'にする
+        name='py_detail'
+        ),
     #----------問題の選択ページ-------------------------------------------
     
     path(
@@ -61,10 +84,33 @@ urlpatterns = [
         'Java-list/',
         # viewsモジュールのlearning_view()関数を実行
         views.Java_learning_view,
-        # URLパターンの名前を'learning'にする
+        # URLパターンの名前を'learning'にする        
         name='Java_list'
         ),
-    
+    path(
+        # ページのURLは「learning/」
+        'Php-list/',
+        # viewsモジュールのlearning_view()関数を実行
+        views.Php_learning_view,
+        # URLパターンの名前を'learning'にする
+        name='Php_list'
+        ),
+    path(
+        # ページのURLは「learning/」
+        'Q-list/',
+        # viewsモジュールのlearning_view()関数を実行
+        views.Q_learning_view,
+        # URLパターンの名前を'learning'にする
+        name='Q_list'
+        ),
+    path(
+        # ページのURLは「learning/」
+        'py-list/',
+        # viewsモジュールのlearning_view()関数を実行
+        views.py_learning_view,
+        # URLパターンの名前を'learning'にする
+        name='py_list'
+        ),
     #----------言語選択---------------------------------------------------
     
     path(
